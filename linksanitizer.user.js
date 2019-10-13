@@ -41,7 +41,7 @@
       return weblink;
     }
     console.log("Hyperlink: " + weblink);
-    var strnew = weblink.replace(/^..*(https?(%3A|:)[^\\&]*).*/, '$1');
+    var strnew = weblink.replace(/^(https?(%3A|:)[^\\&]*).*/, '$1');
     strnew = strnew.replace(/%23/g, '#');
     strnew = strnew.replace(/%26/g, '&');
     strnew = strnew.replace(/%2F/g, '/');
@@ -61,7 +61,7 @@
       switch (mutation.type) {
         case "attributes":
           // Sanitize single mutated element
-          if (/..https?(%3A|:)/.test(mutation.target.href)) {
+          if (/https?(%3A|:)/.test(mutation.target.href)) {
             // Avoid infinite callback loops and set target href only if it would actually change
             var sanitizedLink = sanitize(mutation.target.href);
             if (mutation.target.href != sanitizedLink) {
@@ -72,7 +72,7 @@
         case "childList":
           // Sanitize all new elements
           for (var node of mutation.addedNodes) {
-            if ((typeof node.href !== 'undefined') && (/..https?(%3A|:)/.test(node.href))) {
+            if ((typeof node.href !== 'undefined') && (/https?(%3A|:)/.test(node.href))) {
               node.href = sanitize(node.href);
             }
           }
